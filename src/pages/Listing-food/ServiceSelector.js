@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Row, Col } from "reactstrap";
+import Restimg from "../../assets/images/foodserviceicons/1.jpg";
 
 class ServiceSelector extends Component {
   constructor(props) {
@@ -12,34 +13,62 @@ class ServiceSelector extends Component {
       <React.Fragment>
         <Row className="mt-2">
           <Col xl="3">
-            <div className="mainservicetab s1">
+            <div className="food-service fs2">
               <div className="serviceinfo">
-                <h4>Restaurants</h4>
-                <p>Delicious Deals</p>
+                <Row>
+                  <Col md="3">
+                    <img src={Restimg} alt="" />
+                  </Col>
+                  <Col md="8">
+                    <h4>Restaurants</h4>
+                    <p>Delicious Deals</p>
+                  </Col>
+                </Row>
               </div>
             </div>
           </Col>
           <Col xl="3">
-            <div className="mainservicetab s2">
+            <div className="food-service fs2">
               <div className="serviceinfo">
-                <h4>Home kitchens</h4>
-                <p>Good things have to wait</p>
+                <Row>
+                  <Col md="3">
+                    <img src={Restimg} alt="" />
+                  </Col>
+                  <Col md="8">
+                    <h4>Home kitchens</h4>
+                    <p>Good things have to wait</p>
+                  </Col>
+                </Row>
               </div>
             </div>
           </Col>
           <Col xl="3">
-            <div className="mainservicetab s2">
+            <div className="food-service fs2">
               <div className="serviceinfo">
-                <h4>Cloud kitchens</h4>
-                <p>Lorem ipsum dolor</p>
+                <Row>
+                  <Col md="3">
+                    <img src={Restimg} alt="" />
+                  </Col>
+                  <Col md="8">
+                    <h4>Cloud kitchens</h4>
+                    <p>Lorem ipsum dolor</p>
+                  </Col>
+                </Row>
               </div>
             </div>
           </Col>
           <Col xl="3">
-            <div className="mainservicetab s2">
+            <div className="food-service fs2">
               <div className="serviceinfo">
-                <h4>Bakery</h4>
-                <p>Lorem ipsum dolor</p>
+                <Row>
+                  <Col md="3">
+                    <img src={Restimg} alt="" />
+                  </Col>
+                  <Col md="8">
+                    <h4>Bakery</h4>
+                    <p>Lorem ipsum dolor</p>
+                  </Col>
+                </Row>
               </div>
             </div>
           </Col>

@@ -9,15 +9,13 @@ import { apiGet } from "../../config/apiConfig";
 import { vendorList, setVendorDetails, setItemDetails } from "./actions";
 
 function* vendorfetcher() {
-  try {
-    const Url = BaseUrl.apiUrl.baseUrl + "api/public/getNearbyOutlets/513";
-
-    const response = yield call(apiGet, Url);
-    console.log("response is", response.response);
-    yield put(vendorList(response.response.data));
-  } catch (error) {
-    console.log("error");
-  }
+  const response = yield fetch(
+    "http://207.180.228.92:8080/annasree-0.0.1-SNAPSHOT/api/public/home/get_popular_nearby_list/10.797545/76.758892"
+  )
+    .then((res) => res.json())
+    .then((data) => data);
+  console.log(response);
+  yield put(vendorList(response));
 }
 
 function* vendorDetailsfetcher(action) {

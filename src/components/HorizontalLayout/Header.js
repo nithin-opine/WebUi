@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { Link } from "react-router-dom";
-
+import Geocode from "react-geocode";
 // reactstrap
 import { Row, Col, Dropdown, DropdownToggle, DropdownMenu } from "reactstrap";
 
@@ -34,14 +34,23 @@ class Header extends Component {
   toggleSearch = () => {
     this.setState({ isSearch: !this.state.isSearch });
   };
+
   render() {
+    var lat = "7.568443,2.485789";
+    var long = "";
+    navigator.geolocation.getCurrentPosition(function (position) {
+      console.log("Latitude is :", position.coords.latitude);
+      lat = position.coords.latitude;
+      console.log("Longitude is :", position.coords.longitude);
+      long = position.coords.longitude;
+    });
     return (
       <React.Fragment>
         <header id="page-topbar">
           <div className="navbar-header">
             <div className="d-flex">
               <div className="navbar-brand-box">
-                <Link to="/" className="logo logo-dark">
+                <Link to="/dashboard" className="logo logo-dark">
                   <span className="logo-sm">
                     <img src={logo} alt="" height="22" />
                   </span>
@@ -50,7 +59,7 @@ class Header extends Component {
                   </span>
                 </Link>
 
-                <Link to="/" className="logo logo-light">
+                <Link to="/dashboard" className="logo logo-light">
                   <span className="logo-sm">
                     <img src={logoLightSvg} alt="" height="22" />
                   </span>
@@ -80,9 +89,7 @@ class Header extends Component {
               </form>
               <div className="headerlocation">
                 Delivering to
-                <span className="deli">
-                  F25,LFC road, Perandoor layout,Kaloor
-                </span>
+                <span className="deli">{lat}</span>
                 <i className="bx bx-current-location"></i>
               </div>
             </div>

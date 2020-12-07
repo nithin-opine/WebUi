@@ -8,7 +8,8 @@ function* cartFetcher(action) {
   try {
     const userid = action.payload.userid;
 
-    const Url = BaseUrl.apiUrl.baseUrl + "api/public/view_all_cart/" + userid;
+    const Url =
+      BaseUrl.apiUrl.baseUrl + "api/public/view_all_cart_mob/" + userid;
     console.log(Url);
     const response = yield call(apiGet, Url);
     console.log("response is", response.response);

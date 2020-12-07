@@ -51,8 +51,9 @@ class MenuItem extends Component {
     const url = BaseUrl.apiUrl.baseUrl + "api/public/add_cart";
     values.cartAddons = values.cartAddons.toString();
     console.log(url, values);
-    //const response = await apiPost(url, values);
-    //  console.log(" add cart response is", response);
+    const response = await apiPost(url, values);
+    console.log(" add cart response is", response);
+    this.tog_custom_modal();
   }
 
   removeBodyCss() {

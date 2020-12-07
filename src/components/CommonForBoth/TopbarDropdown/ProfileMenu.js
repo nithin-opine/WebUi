@@ -18,7 +18,8 @@ class ProfileMenu extends Component {
     super(props);
     this.state = {
       menu: false,
-      name: "Nithin krishna",
+      isLoggedin: false,
+      userName: "",
     };
     this.toggle = this.toggle.bind(this);
   }
@@ -30,17 +31,11 @@ class ProfileMenu extends Component {
   }
 
   componentDidMount() {
-    if (localStorage.getItem("authUser")) {
-      if (process.env.REACT_APP_DEFAULTAUTH === "firebase") {
-        const obj = JSON.parse(localStorage.getItem("authUser"));
-        this.setState({ name: obj.displayName });
-      } else if (
-        process.env.REACT_APP_DEFAULTAUTH === "fake" ||
-        process.env.REACT_APP_DEFAULTAUTH === "jwt"
-      ) {
-        const obj = JSON.parse(localStorage.getItem("authUser"));
-        this.setState({ name: obj.username });
-      }
+    var authUser = localStorage.getItem("authUser");
+    console.log(localStorage.getItem("username"));
+    if (authUser) {
+      this.setState({ isLoggedin: true });
+      this.setState({ userName: localStorage.getItem("username") });
     }
   }
 
@@ -57,40 +52,53 @@ class ProfileMenu extends Component {
             id="page-header-user-dropdown"
             tag="button"
           >
-            <img
-              className="rounded-circle header-profile-user"
-              src={user1}
-              alt="Header Avatar"
-            />
-            <span className="d-none d-xl-inline-block ml-2 mr-1">
-              {this.state.name}
-            </span>
-            <i className="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+            {this.state.isLoggedin ? (
+              <div>
+                <span>
+                  <Link to="/cart" className="cartbtn">
+                    <i className="bx bx-cart-alt "></i>
+                  </Link>
+                </span>
+                <span className="d-none d-xl-inline-block ml-2 mr-1">
+                  {this.state.userName}
+                </span>
+                <i className="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+              </div>
+            ) : (
+              <Link className="loginbtn" to="/login">
+                Login
+              </Link>
+            )}
           </DropdownToggle>
-          <DropdownMenu right>
-            <DropdownItem tag="a" href="/profile">
-              <i className="bx bx-user font-size-16 align-middle mr-1"></i>
-              {this.props.t("Profile")}
-            </DropdownItem>
-            <DropdownItem tag="a" href="/crypto-wallet">
-              <i className="bx bx-wallet font-size-16 align-middle mr-1"></i>
-              {this.props.t("My Wallet")}
-            </DropdownItem>
-            <DropdownItem tag="a" href="#">
-              <span className="badge badge-success float-right mt-1">5</span>
-              <i className="bx bx-wrench font-size-17 align-middle mr-1"></i>
-              {this.props.t("Settings")}
-            </DropdownItem>
-            <DropdownItem tag="a" href="auth-lock-screen">
-              <i className="bx bx-lock-open font-size-16 align-middle mr-1"></i>
-              {this.props.t("Lock screen")}
-            </DropdownItem>
-            <div className="dropdown-divider"></div>
-            <Link to="/logout" className="dropdown-item">
-              <i className="bx bx-power-off font-size-16 align-middle mr-1 text-danger"></i>
-              <span>{this.props.t("Logout")}</span>
-            </Link>
-          </DropdownMenu>
+          {this.state.isLoggedin ? (
+            <DropdownMenu right>
+              {/*
+              <DropdownItem tag="a" href="/profile">
+                <i className="bx bx-user font-size-16 align-middle mr-1"></i>
+                {this.props.t("Profile")}
+              </DropdownItem>
+              <DropdownItem tag="a" href="/crypto-wallet">
+                <i className="bx bx-wallet font-size-16 align-middle mr-1"></i>
+                {this.props.t("My Wallet")}
+              </DropdownItem>
+              <DropdownItem tag="a" href="#">
+                <span className="badge badge-success float-right mt-1">5</span>
+                <i className="bx bx-wrench font-size-17 align-middle mr-1"></i>
+                {this.props.t("Settings")}
+              </DropdownItem>
+              <DropdownItem tag="a" href="auth-lock-screen">
+                <i className="bx bx-lock-open font-size-16 align-middle mr-1"></i>
+                {this.props.t("Lock screen")}
+              </DropdownItem> 
+              <div className="dropdown-divider"></div> */}
+              <Link to="/logout" className="dropdown-item">
+                <i className="bx bx-power-off font-size-16 align-middle mr-1 text-danger"></i>
+                <span>{this.props.t("Logout")}</span>
+              </Link>
+            </DropdownMenu>
+          ) : (
+            ""
+          )}
         </Dropdown>
       </React.Fragment>
     );

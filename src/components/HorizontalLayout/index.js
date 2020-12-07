@@ -46,7 +46,7 @@ class Layout extends Component {
     const title = this.props.location.pathname;
     let currentage = title.charAt(1).toUpperCase() + title.slice(2);
 
-    document.title = currentage + " | Food delivery made simple";
+    document.title = " AnnaSree  Food delivery made simple";
 
     this.props.changeLayout("horizontal");
     if (this.props.topbarTheme) {
@@ -81,7 +81,6 @@ class Layout extends Component {
           <div className="main-content">{this.props.children}</div>
 
           <Footer />
-          <CartFragment />
         </div>
       </React.Fragment>
     );

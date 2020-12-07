@@ -148,7 +148,6 @@ import ContactsList from "../pages/Contacts/contacts-list";
 import ContactsProfile from "../pages/Contacts/contacts-profile";
 
 const authProtectedRoutes = [
-  { path: "/dashboard", component: Dashboard },
   { path: "/merchant/:id", component: MerchantProfile },
   { path: "/cart", component: Cart },
   { path: "/dashboard-saas", component: DashboardSaas },
@@ -164,7 +163,7 @@ const authProtectedRoutes = [
 
   //profile
   { path: "/profile", component: UserProfile },
-  { path: "/listingfood", component: ListingFood },
+
   { path: "/listinggrocery", component: ListingRestaurant },
   //chat
   { path: "/chat", component: Chat },
@@ -279,6 +278,8 @@ const authProtectedRoutes = [
 ];
 
 const publicRoutes = [
+  { path: "/dashboard", component: Dashboard },
+  { path: "/listingfood", component: ListingFood },
   { path: "/logout", component: Logout },
   { path: "/login", component: Login },
   { path: "/forgot-password", component: ForgetPwd },

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Banner from "../../assets/images/jumbo/banner.jpg";
 
 class Jumbo extends Component {
   constructor(props) {
@@ -10,21 +11,12 @@ class Jumbo extends Component {
     return (
       <React.Fragment>
         <div className="jumbo">
-          <h2 className="text-center">
-            Lorem ipsum dolor sit amet consectetur
-          </h2>
-          <h5 className="text-center">
-            Lorem ipsum dolor sit amet consectetur
-          </h5>
-          <div className="jumbo-search">
-            <input placeholder=""></input>
-            <button>Search</button>
+          <div className="jumbo-inner">
+            <div className="jumbo-main">
+              <div className="jumbo-main-em"></div>
+            </div>
           </div>
-          <img
-            src="https://images.pexels.com/photos/842571/pexels-photo-842571.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-            alt=""
-            className="img-responsive"
-          />
+          <img src={Banner} alt="" className="img-responsive" />
         </div>
       </React.Fragment>
     );

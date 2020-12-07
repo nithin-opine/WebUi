@@ -6,6 +6,7 @@ import Jumbo from "./Jumbo";
 import ServiceSelector from "./ServiceSelector";
 import InnerpageAd from "./InnerpageAd";
 import RestaurantList from "./RestaurantList";
+import Geocode from "react-geocode";
 
 //i18n
 import { withNamespaces } from "react-i18next";

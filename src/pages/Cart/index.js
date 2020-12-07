@@ -5,76 +5,104 @@ import {
   Col,
   Table,
   Input,
-  InputGroup,
-  InputGroupAddon,
   Button,
   Card,
-  Form,
   FormGroup,
   Label,
   CardBody,
   CardTitle,
-  CardSubtitle,
+  Alert,
+  Modal,
 } from "reactstrap";
+import { AvForm, AvField } from "availity-reactstrap-validation";
+import Logo from "../../assets/images/annalogocolor.png";
 import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import { getCart } from "../../store/actions";
-
+import axios from "axios";
+import CartItem from "./CartItem";
 class Cart extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cartprice: "",
+      cartempty: "1",
+      item_modal: false,
     };
+    this.tog_item_modal = this.tog_item_modal.bind(this);
+    this.updateCartQty = this.updateCartQty.bind(this);
+    this.handleValidSubmit = this.handleValidSubmit.bind(this);
+  }
+  updateCartQty(cartid, qty) {
+    console.log(cartid, qty);
+    axios.put(
+      "http://207.180.228.92:8080/annasree-0.0.1-SNAPSHOT/api/public/update_cartqty/" +
+        cartid +
+        "/" +
+        qty
+    );
+  }
+  tog_item_modal() {
+    this.setState((prevState) => ({
+      item_modal: !prevState.item_modal,
+      miid: 0,
+    }));
   }
   componentDidMount() {
     const userid = localStorage.getItem("userid");
-    this.props.getCart(5);
+    this.props.getCart(userid);
+  }
+  handleValidSubmit() {
+    const userid = localStorage.getItem("userid");
+    axios.post(
+      "http://207.180.228.92:8080/annasree-0.0.1-SNAPSHOT/api/public/checkout/",
+      {
+        userId: userid,
+        addressId: 0,
+        mobile: "9895468440",
+        paymentMode: "0",
+        emailId: "nisha.selene@gmail.com",
+        packageType: "",
+        deliveryType: "",
+        merchantBranch: "54",
+        areaId: "513",
+        cityId: "13",
+        landlineNo: "5661099",
+        propertyType: "1",
+        apartmentFlour: "1",
+        addressTitle: "G",
+        couponStatus: "1",
+        couponId: 13,
+        scheduledDeliveryTime: "2020-11-28T09:00:00",
+      }
+    );
+    this.tog_item_modal();
+    setTimeout(function () {
+      window.location.reload(false);
+    }, 5000);
   }
   render() {
-    console.log(this.props.cart_mirror);
+    var cart = this.props.cart_mirror;
+
     var rest_name = "";
-    const cartArr = this.props.cart_mirror;
-    var current_cart;
-    var cp = "";
-    if (typeof cartArr !== "undefined" && cartArr !== null) {
-      current_cart = Object.keys(cartArr).map(function (key, index) {
-        rest_name = cartArr[key].cartMerchantBranch.merchantBranchName;
-        cp =
-          cp +
-          cartArr[key].itemPriceObj.priceonItemPrice * cartArr[key].cartQty;
-        return (
-          <Row className="cartrow mb-3">
-            <Col md="8">
-              <span className="itemname">
-                {cartArr[key].cartMenuItem.itemName} (
-                {cartArr[key].itemPriceObj.priceonItemTitle})
-              </span>
-              <br />₹ {cartArr[key].itemPriceObj.priceonItemPrice}
-            </Col>
-            <Col md="4">
-              {" "}
-              <InputGroup>
-                <InputGroupAddon addonType="prepend">
-                  <Button className="grpbtn" onClick={() => {}}>
-                    +
-                  </Button>
-                </InputGroupAddon>
-                <Input
-                  type="text"
-                  name="demo_vertical"
-                  value={cartArr[key].cartQty}
-                />
-                <InputGroupAddon addonType="append">
-                  <Button className="grpbtn" onClick={() => {}}>
-                    -
-                  </Button>
-                </InputGroupAddon>
-              </InputGroup>
-            </Col>
-          </Row>
-        );
-      });
+    var cart_list = <CardTitle>Cart is empty</CardTitle>;
+    var cart_total,
+      deli_charge = 0,
+      tax,
+      grand_total;
+
+    var qty = 0;
+    if (typeof cart !== "undefined" && cart !== null) {
+      if (cart.cartItemList !== null) {
+        rest_name = cart.restaurantDetails.merchantBranchName;
+        cart_total = cart.cartItemTotal;
+        grand_total = cart.cartGrandTotal;
+        deli_charge = cart.deliveryCharge === null ? 0 : cart.deliveryCharge;
+        tax = cart.cartTaxAmount === null ? 0 : cart.cartTaxAmount;
+
+        cart_list = Object.keys(cart.cartItemList).map(function (key, index) {
+          return <CartItem data={cart.cartItemList[key]} />;
+        });
+      }
     }
 
     return (
@@ -84,132 +112,114 @@ class Cart extends Component {
             <Row>
               <Col lx="8">
                 <Card>
-                  <CardBody>
-                    <div>
-                      <CardTitle>Payment information</CardTitle>
-                      <CardSubtitle className="mb-3">
-                        Fill all information below
-                      </CardSubtitle>
+                  <AvForm
+                    className="form-horizontal"
+                    onValidSubmit={this.handleValidSubmit}
+                  >
+                    {this.props.error && this.props.error ? (
+                      <Alert color="danger">{this.props.error}</Alert>
+                    ) : null}
+                    <CardBody>
                       <div>
-                        <div className="custom-control custom-radio custom-control-inline mr-4">
-                          <Input
-                            type="radio"
-                            value="1"
-                            id="customRadioInline1"
-                            name="customRadioInline1"
-                            className="custom-control-input"
-                          />
-                          <Label
-                            className="custom-control-label"
-                            htmlFor="customRadioInline1"
-                          >
-                            <i className="fab fa-cc-mastercard mr-1 font-size-20 align-top"></i>{" "}
-                            Credit / Debit Card
-                          </Label>
-                        </div>
-                        <div className="custom-control custom-radio custom-control-inline mr-4">
-                          <Input
-                            type="radio"
-                            value="2"
-                            id="customRadioInline2"
-                            name="customRadioInline1"
-                            className="custom-control-input"
-                          />
-                          <Label
-                            className="custom-control-label"
-                            htmlFor="customRadioInline2"
-                          >
-                            <i className="fab fa-cc-paypal mr-1 font-size-20 align-top"></i>{" "}
-                            Paypal
-                          </Label>
-                        </div>
-                        <div className="custom-control custom-radio custom-control-inline mr-4">
-                          <Input
-                            type="radio"
-                            value="3"
-                            id="customRadioInline3"
-                            defaultChecked
-                            name="customRadioInline1"
-                            className="custom-control-input"
-                          />
-                          <Label
-                            className="custom-control-label"
-                            htmlFor="customRadioInline3"
-                          >
-                            <i className="far fa-money-bill-alt mr-1 font-size-20 align-top"></i>{" "}
-                            Cash on Delivery
-                          </Label>
-                        </div>
+                        <CardTitle>Delivery information</CardTitle>
+                        <Row>
+                          <Col lg="5">
+                            <FormGroup className="mt-4 mb-0">
+                              <Label htmlFor="street">Lane / Street name</Label>
+                              <AvField
+                                type="text"
+                                name="street"
+                                className="form-control"
+                                id="street"
+                                placeholder=""
+                                required
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col lg="4">
+                            <FormGroup className=" mt-4 mb-0">
+                              <Label htmlFor="apartmentNo">
+                                Building number
+                              </Label>
+                              <AvField
+                                type="text"
+                                name="apartmentNo"
+                                className="form-control"
+                                id="apartmentNo"
+                                placeholder=""
+                                required
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col lg="3">
+                            <FormGroup className="mt-4 mb-0">
+                              <Label htmlFor="city">City</Label>
+                              <Input
+                                type="text"
+                                className="form-control"
+                                id="city"
+                              />
+                            </FormGroup>
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col lg="7">
+                            <FormGroup className="mt-2 mb-0">
+                              <Label htmlFor="additionalDirection">
+                                Additional landmarks
+                              </Label>
+                              <Input
+                                type="text"
+                                className="form-control"
+                                id="additionalDirection"
+                                placeholder=""
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col lg="5">
+                            <FormGroup className="mt-2 mb-0">
+                              <Label htmlFor="addressMobileNo">
+                                Contact number
+                              </Label>
+                              <Input
+                                type="text"
+                                className="form-control"
+                                id="addressMobileNo"
+                                placeholder=""
+                              />
+                            </FormGroup>
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col lg="3">
+                            <Button type="submit" className="mt-4">
+                              Checkout
+                            </Button>
+                          </Col>
+                        </Row>
                       </div>
-
-                      <h5 className="mt-5 mb-3 font-size-15">
-                        For card Payment
-                      </h5>
-                      <div className="p-4 border">
-                        <Form>
-                          <FormGroup className="mb-0">
-                            <Label htmlFor="cardnumberInput">Card Number</Label>
-                            <Input
-                              type="text"
-                              className="form-control"
-                              id="cardnumberInput"
-                              placeholder="0000 0000 0000 0000"
-                            />
-                          </FormGroup>
-                          <Row>
-                            <Col lg="6">
-                              <FormGroup className="mt-4 mb-0">
-                                <Label htmlFor="cardnameInput">
-                                  Name on card
-                                </Label>
-                                <Input
-                                  type="text"
-                                  className="form-control"
-                                  id="cardnameInput"
-                                  placeholder="Name on Card"
-                                />
-                              </FormGroup>
-                            </Col>
-                            <Col lg="3">
-                              <FormGroup className=" mt-4 mb-0">
-                                <Label htmlFor="expirydateInput">
-                                  Expiry date
-                                </Label>
-                                <Input
-                                  type="text"
-                                  className="form-control"
-                                  id="expirydateInput"
-                                  placeholder="MM/YY"
-                                />
-                              </FormGroup>
-                            </Col>
-                            <Col lg="3">
-                              <FormGroup className="mt-4 mb-0">
-                                <Label htmlFor="cvvcodeInput">CVV Code</Label>
-                                <Input
-                                  type="text"
-                                  className="form-control"
-                                  id="cvvcodeInput"
-                                  placeholder="Enter CVV Code"
-                                />
-                              </FormGroup>
-                            </Col>
-                          </Row>
-                        </Form>
-                      </div>
-                    </div>
-                  </CardBody>
+                    </CardBody>
+                    <Modal
+                      isOpen={this.state.item_modal}
+                      toggle={this.tog_item_modal}
+                      centered={true}
+                      className="acceptedmodal"
+                    >
+                      <img src={Logo} alt="" />
+                      Order accepted !
+                    </Modal>
+                  </AvForm>
                 </Card>
               </Col>
               <Col xl="4">
                 <Card>
                   <CardBody>
                     <CardTitle className="mb-4">{rest_name}</CardTitle>
-
-                    {current_cart}
+                    {cart_list}
                   </CardBody>
                 </Card>
-                <Card>
+
+                {/* <Card>
                   <CardBody>
                     <CardTitle className="mb-4">
                       Schedule your delivery
@@ -227,7 +237,8 @@ class Cart extends Component {
                       </Col>
                     </Row>
                   </CardBody>
-                </Card>
+               </Card> */}
+
                 <Card>
                   <CardBody>
                     <CardTitle className="mb-3">Order Summary</CardTitle>
@@ -236,25 +247,22 @@ class Cart extends Component {
                       <Table className="table mb-0">
                         <tbody>
                           <tr>
-                            <td>Grand Total :</td>
-                            <td>₹ {cp}</td>
+                            <td>Cart Total :</td>
+                            <td>₹ {cart_total}</td>
                           </tr>
-                          <tr>
-                            <td>Discount : </td>
-                            <td>- ₹ 157</td>
-                          </tr>
+
                           <tr>
                             <td>Packaging and taxes: </td>
-                            <td>₹ 19.22</td>
+                            <td>₹ {tax}</td>
                           </tr>
                           <tr>
-                            <td>Delivery Charge :</td>
-                            <td>₹ 25</td>
+                            <td>Delivery Charge : </td>
+                            <td>₹ {deli_charge}</td>
                           </tr>
 
                           <tr>
                             <th>Grand Total :</th>
-                            <th>₹ 1744.22</th>
+                            <th>₹ {grand_total}</th>
                           </tr>
                         </tbody>
                       </Table>
@@ -273,7 +281,6 @@ class Cart extends Component {
 const mapStatetoProps = (state) => {
   console.log(state);
   const cart_mirror = state.Cart.cart.cart_data;
-  console.log("cart_mirror", cart_mirror);
   return { cart_mirror };
 };
 

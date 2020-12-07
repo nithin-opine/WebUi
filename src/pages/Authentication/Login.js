@@ -32,6 +32,7 @@ class Login extends Component {
   }
 
   componentDidMount() {
+    window.scrollTo(0, 0);
     this.props.apiError("");
   }
 
@@ -51,9 +52,9 @@ class Login extends Component {
                   <div className="bg-soft-primary">
                     <Row>
                       <Col className="col-7">
-                        <div className="text-primary p-4">
-                          <h5 className="text-primary">Welcome Back !</h5>
-                          <p>Sign in to continue to Skote.</p>
+                        <div className="text-primary-login p-4">
+                          <h5 className="text-primary-login">Welcome Back !</h5>
+                          <p>Sign in to continue to Annasree.</p>
                         </div>
                       </Col>
                       <Col className="col-5 align-self-end">
@@ -124,7 +125,7 @@ class Login extends Component {
 
                         <div className="mt-3">
                           <button
-                            className="btn btn-primary btn-block waves-effect waves-light"
+                            className="btn btn-green btn-block waves-effect waves-light"
                             type="submit"
                           >
                             Log In
@@ -151,10 +152,6 @@ class Login extends Component {
                       {" "}
                       Signup now{" "}
                     </Link>{" "}
-                  </p>
-                  <p>
-                    © {new Date().getFullYear()} Skote. Crafted with{" "}
-                    <i className="mdi mdi-heart text-danger"></i> by Themesbrand
                   </p>
                 </div>
               </Col>

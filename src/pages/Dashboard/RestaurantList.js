@@ -12,166 +12,22 @@ class RestaurantList extends Component {
     super(props);
     this.state = {
       filter: 0,
-      restaurantinfo: [
-        {
-          rid: "R1",
-          rimg:
-            "https://images.chinahighlights.com/allpicture/2019/01/482fb1f829ce4e6496b94fea_894x596.webp",
-          rname: "Kallayees kitchen",
-          rtags: "Arabian, Indian, Wraps, North Indian",
-          rrating: 4.5,
-          rdtime: 40,
-          rcost: 250,
-          rpromotion: false,
-          rcoupon: "20% off | Use code ANNA2020",
-        },
-        {
-          rid: "R2",
-          rimg:
-            "https://images.chinahighlights.com/allpicture/2019/01/482fb1f829ce4e6496b94fea_894x596.webp",
-          rname: "Kayess Restaurant",
-          rtags: "Arabian, Indian",
-          rrating: 3.0,
-          rdtime: 40,
-          rcost: 150,
-          rpromotion: false,
-          rcoupon: "20% off | Use code ANNA2020",
-        },
-        {
-          rid: "R1",
-          rimg:
-            "https://www.chicagofoodplanet.com/wp-content/uploads/2019/03/lous-pizza.png",
-          rname: "Kallayees kitchen",
-          rtags: "Arabian, Indian, Wraps, North Indian",
-          rrating: 3.5,
-          rdtime: 40,
-          rcost: 250,
-          rpromotion: true,
-          rcoupon: "20% off | Use code ANNA2020",
-        },
-        {
-          rid: "R2",
-          rimg:
-            "https://images.chinahighlights.com/allpicture/2019/01/482fb1f829ce4e6496b94fea_894x596.webp",
-          rname: "Kayess Restaurant",
-          rtags: "Arabian, Indian",
-          rrating: 4.0,
-          rdtime: 40,
-          rcost: 150,
-          rpromotion: true,
-          rcoupon: "20% off | Use code ANNA2020",
-        },
-        {
-          rid: "R1",
-          rimg:
-            "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/white-wine-coq-au-vin-1586056485.jpg?crop=0.879xw:0.699xh;0.0639xw,0.205xh&resize=640:",
-          rname: "Kallayees kitchen",
-          rtags: "Arabian, Indian, Wraps, North Indian",
-          rrating: 4.5,
-          rdtime: 40,
-          rcost: 250,
-          rpromotion: true,
-          rcoupon: "20% off | Use code ANNA2020",
-        },
-        {
-          rid: "R2",
-          rimg:
-            "https://www.chicagofoodplanet.com/wp-content/uploads/2019/03/lous-pizza.png",
-          rname: "Kayess Restaurant",
-          rtags: "Arabian, Indian",
-          rrating: 3.0,
-          rdtime: 40,
-          rcost: 150,
-          rpromotion: false,
-          rcoupon: "20% off | Use code ANNA2020",
-        },
-        {
-          rid: "R1",
-          rimg:
-            "https://images.chinahighlights.com/allpicture/2019/01/482fb1f829ce4e6496b94fea_894x596.webp",
-          rname: "Kallayees kitchen",
-          rtags: "Arabian, Indian, Wraps, North Indian",
-          rrating: 2.5,
-          rdtime: 40,
-          rcost: 250,
-          rpromotion: true,
-          rcoupon: "20% off | Use code ANNA2020",
-        },
-        {
-          rid: "R2",
-          rimg:
-            "https://www.chicagofoodplanet.com/wp-content/uploads/2019/03/lous-pizza.png",
-          rname: "Kayess Restaurant",
-          rtags: "Arabian, Indian",
-          rrating: 3.2,
-          rdtime: 40,
-          rcost: 150,
-          rpromotion: false,
-          rcoupon: "20% off | Use code ANNA2020",
-        },
-        {
-          rid: "R1",
-          rimg:
-            "https://images.chinahighlights.com/allpicture/2019/01/482fb1f829ce4e6496b94fea_894x596.webp",
-          rname: "Kallayees kitchen",
-          rtags: "Arabian, Indian, Wraps, North Indian",
-          rrating: 1.5,
-          rdtime: 40,
-          rcost: 250,
-          rpromotion: true,
-          rcoupon: "20% off | Use code ANNA2020",
-        },
-        {
-          rid: "R2",
-          rimg:
-            "https://www.chicagofoodplanet.com/wp-content/uploads/2019/03/lous-pizza.png",
-          rname: "Kayess Restaurant",
-          rtags: "Arabian, Indian",
-          rrating: 3.0,
-          rdtime: 40,
-          rcost: 150,
-          rpromotion: false,
-          rcoupon: "20% off | Use code ANNA2020",
-        },
-        {
-          rid: "R1",
-          rimg:
-            "https://images.chinahighlights.com/allpicture/2019/01/482fb1f829ce4e6496b94fea_894x596.webp",
-          rname: "Kallayees kitchen",
-          rtags: "Arabian, Indian, Wraps, North Indian",
-          rrating: 4.5,
-          rdtime: 40,
-          rcost: 250,
-          rpromotion: true,
-          rcoupon: "20% off | Use code ANNA2020",
-        },
-        {
-          rid: "R2",
-          rimg:
-            "https://www.chicagofoodplanet.com/wp-content/uploads/2019/03/lous-pizza.png",
-          rname: "Kayess Restaurant",
-          rtags: "Arabian, Indian",
-          rrating: 3.2,
-          rdtime: 40,
-          rcost: 150,
-          rpromotion: false,
-          rcoupon: "20% off | Use code ANNA2020",
-        },
-      ],
     };
   }
 
   componentDidMount() {
-    this.props.getVendors();
+    this.props.getVendors(this.props.match.params.id);
   }
 
   render() {
     return (
       <React.Fragment>
-        {console.log("av props", this.props.vendorlist.Vendor.vendorlist)}
         <Row className="mt-4">
           <Col md="6">
-            <h4>350 outlets near you</h4>
+            <h4>
+              {Object.keys(this.props.vendorlist.Vendor.vendorlist).length}{" "}
+              outlets near you
+            </h4>
           </Col>
           <Col md="6" className="text-right rlistfilters">
             <a>Relevance</a>
@@ -188,38 +44,58 @@ class RestaurantList extends Component {
             <Row className="mt-1 restaurantlist">
               {this.props.vendorlist.Vendor.vendorlist.map(
                 (restaurant, merchantBranchId) => (
-                  <Col md="3" className="restaurantwrapper">
+                  <Col
+                    md="3"
+                    className="restaurantwrapper"
+                    key={restaurant.merchantBranchId}
+                  >
                     <Row>
                       <Col md="12">
-                        <div className="rest-img">
-                          <img src={restaurant.rimg} alt="" />
-                          <div className="delitime">
-                            {restaurant.rdtime} mins
+                        <Link to={"/merchant/" + restaurant.merchantBranchId}>
+                          <div className="rest-img">
+                            <img
+                              src="https://www.helpguide.org/wp-content/uploads/fast-foods-candy-cookies-pastries-768.jpg"
+                              alt=""
+                            />
+                            <div className="delitime">
+                              {restaurant.merchantBranchOrderTime} mins
+                            </div>
+                            {restaurant.rpromotion ? (
+                              <div className="promoted">Promoted</div>
+                            ) : (
+                              ""
+                            )}
                           </div>
-                          {restaurant.rpromotion ? (
-                            <div className="promoted">Promoted</div>
-                          ) : (
-                            ""
-                          )}
-                        </div>
+                        </Link>
                       </Col>
                       <Col md="12">
                         <span className="rest-name">
-                          {restaurant.merchantBranchName}
+                          {restaurant.merchantBranchName}{" "}
+                          {restaurant.isAnnasreeCertified ? (
+                            <i className="certiifedicon mdi mdi-check-decagram">
+                              {" "}
+                            </i>
+                          ) : (
+                            ""
+                          )}
                         </span>
                       </Col>
                       <Col md="12">
-                        <span className="rest-tags">{restaurant.rtags}</span>
+                        <span className="rest-tags">
+                          Arabic, Continental, Chinese
+                        </span>
                       </Col>
                       <Col md="12">
-                        <Rating rating={restaurant.rrating} />{" "}
-                        {restaurant.rcost} for two
+                        <Rating
+                          rating={Math.floor(Math.random() * (5 - 0) + 0)}
+                        />{" "}
+                        ₹ {restaurant.merchantBranchMinWalletAmnt} for two
                       </Col>
                       <Col md="12">
                         <hr />
                       </Col>
                       <Col md="12" className="rcoupon">
-                        {restaurant.rcoupon}
+                        ANNAWEB 2020 for 20% OFF
                       </Col>
                     </Row>
                   </Col>
@@ -235,7 +111,7 @@ class RestaurantList extends Component {
 
 const mapStatetoProps = (state) => {
   const vendorlist = state;
-  console.log("dsdsd", vendorlist.Vendor.vendorlist);
+  console.log(vendorlist);
   return { vendorlist };
 };
 export default withRouter(

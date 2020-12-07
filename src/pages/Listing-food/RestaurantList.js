@@ -11,6 +11,7 @@ class RestaurantList extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading: 0,
       filter: 0,
     };
   }
@@ -44,7 +45,11 @@ class RestaurantList extends Component {
             <Row className="mt-1 restaurantlist">
               {this.props.vendorlist.Vendor.vendorlist.map(
                 (restaurant, merchantBranchId) => (
-                  <Col md="3" className="restaurantwrapper">
+                  <Col
+                    md="3"
+                    className="restaurantwrapper"
+                    key={restaurant.merchantBranchName}
+                  >
                     <Row>
                       <Col md="12">
                         <Link to={"/merchant/" + restaurant.merchantBranchId}>
@@ -75,7 +80,7 @@ class RestaurantList extends Component {
                         </span>
                       </Col>
                       <Col md="12">
-                        <Rating rating="4.5" />{" "}
+                        <Rating rating="4.5" /> ₹{" "}
                         {restaurant.merchantBranchMinWalletAmnt} for two
                       </Col>
                       <Col md="12">

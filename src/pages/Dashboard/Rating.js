@@ -15,7 +15,7 @@ class Rating extends Component {
 
     return (
       <React.Fragment>
-        <span class="ratingspan" style={{ backgroundColor: bg }}>
+        <span className="ratingspan" style={{ backgroundColor: bg }}>
           {this.props.rating}
         </span>
       </React.Fragment>

@@ -16,8 +16,12 @@ class ServiceSelector extends Component {
             <Link to="/listingfood">
               <div className="mainservicetab s1">
                 <div className="serviceinfo">
-                  <h4>Food</h4>
+                  <h4>Restaurants</h4>
                   <p>Delicious Deals</p>
+                  <p className="mt-5">
+                    View all{" "}
+                    <i className="mdi mdi-arrow-right-bold-circle-outline ml-1"></i>
+                  </p>
                 </div>
               </div>
             </Link>
@@ -28,6 +32,10 @@ class ServiceSelector extends Component {
                 <div className="serviceinfo">
                   <h4>Groceries</h4>
                   <p>Freshness at your doorstep</p>
+                  <p className="mt-5">
+                    View all{" "}
+                    <i className="mdi mdi-arrow-right-bold-circle-outline ml-1"></i>
+                  </p>
                 </div>
               </div>
             </Link>
