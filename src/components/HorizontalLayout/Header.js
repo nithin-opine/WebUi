@@ -39,7 +39,7 @@ class Header extends Component {
   handleChange(e){
    
     this.setState({value:e.target.value})
-    const Url = BaseUrl.apiUrl.baseUrl + "api/public/search/"+e.target.value;
+    const Url = BaseUrl.apiUrl.baseUrl + "api/public/search_new/"+e.target.value;
     let resp = apiGet(Url);
     resp.then((resp)=> {
       console.log('oooooooooooooooooo',resp)
