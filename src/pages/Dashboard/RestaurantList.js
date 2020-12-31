@@ -6,6 +6,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import { getVendors } from "../../store/actions";
+import RestImg from "./RestImg";
 
 class RestaurantList extends Component {
   constructor(props) {
@@ -53,12 +54,10 @@ class RestaurantList extends Component {
                       <Col md="12">
                         <Link to={"/merchant/" + restaurant.merchantBranchId}>
                           <div className="rest-img">
-                            <img
-                              src="https://www.helpguide.org/wp-content/uploads/fast-foods-candy-cookies-pastries-768.jpg"
-                              alt=""
-                            />
+                            <RestImg bid={restaurant.merchantBranchId} />
+
                             <div className="delitime">
-                              {restaurant.merchantBranchOrderTime} mins
+                              {restaurant.distance} kms
                             </div>
                             {restaurant.rpromotion ? (
                               <div className="promoted">Promoted</div>
@@ -89,13 +88,13 @@ class RestaurantList extends Component {
                         <Rating
                           rating={Math.floor(Math.random() * (5 - 0) + 0)}
                         />{" "}
-                        ₹ {restaurant.merchantBranchMinWalletAmnt} for two
+                        ₹ {restaurant.merchantBranchMinWalletAmnt} 100 for two
                       </Col>
                       <Col md="12">
                         <hr />
                       </Col>
                       <Col md="12" className="rcoupon">
-                        ANNAWEB 2020 for 20% OFF
+                        {restaurant.offers}
                       </Col>
                     </Row>
                   </Col>

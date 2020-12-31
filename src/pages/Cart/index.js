@@ -21,6 +21,7 @@ import { withRouter, Link } from "react-router-dom";
 import { getCart } from "../../store/actions";
 import axios from "axios";
 import CartItem from "./CartItem";
+import Summary from "./Summary";
 class Cart extends Component {
   constructor(props) {
     super(props);
@@ -35,7 +36,7 @@ class Cart extends Component {
   updateCartQty(cartid, qty) {
     console.log(cartid, qty);
     axios.put(
-      "http://207.180.228.92:8080/annasree-0.0.1-SNAPSHOT/api/public/update_cartqty/" +
+      "https://annasree.com:8443/annasree-0.0.1-SNAPSHOT/api/public/update_cartqty/" +
         cartid +
         "/" +
         qty
@@ -51,25 +52,29 @@ class Cart extends Component {
     const userid = localStorage.getItem("userid");
     this.props.getCart(userid);
   }
-  handleValidSubmit() {
+  handleValidSubmit(event, values) {
     const userid = localStorage.getItem("userid");
+    console.log("dddd", values);
     axios.post(
-      "http://207.180.228.92:8080/annasree-0.0.1-SNAPSHOT/api/public/checkout/",
+      "https://annasree.com:8443/annasree-0.0.1-SNAPSHOT/api/public/checkout/",
       {
         userId: userid,
-        addressId: 0,
-        mobile: "9895468440",
+        addressId: 128,
+        mobile: values.addressMobileNo,
         paymentMode: "0",
         emailId: "nisha.selene@gmail.com",
         packageType: "",
         deliveryType: "",
-        merchantBranch: "54",
+        merchantBranch: values.merchantBranch,
         areaId: "513",
         cityId: "13",
         landlineNo: "5661099",
         propertyType: "1",
+        street: values.street,
+        additionalDirection: values.additionalDirection,
         apartmentFlour: "1",
         addressTitle: "G",
+        apartmentNo: values.apartmentNo,
         couponStatus: "1",
         couponId: 13,
         scheduledDeliveryTime: "2020-11-28T09:00:00",
@@ -82,7 +87,7 @@ class Cart extends Component {
   }
   render() {
     var cart = this.props.cart_mirror;
-
+    var cart_rest_id;
     var rest_name = "";
     var cart_list = <CardTitle>Cart is empty</CardTitle>;
     var cart_total,
@@ -96,6 +101,7 @@ class Cart extends Component {
         rest_name = cart.restaurantDetails.merchantBranchName;
         cart_total = cart.cartItemTotal;
         grand_total = cart.cartGrandTotal;
+        cart_rest_id = cart.cartRestaurantId;
         deli_charge = cart.deliveryCharge === null ? 0 : cart.deliveryCharge;
         tax = cart.cartTaxAmount === null ? 0 : cart.cartTaxAmount;
 
@@ -123,19 +129,6 @@ class Cart extends Component {
                       <div>
                         <CardTitle>Delivery information</CardTitle>
                         <Row>
-                          <Col lg="5">
-                            <FormGroup className="mt-4 mb-0">
-                              <Label htmlFor="street">Lane / Street name</Label>
-                              <AvField
-                                type="text"
-                                name="street"
-                                className="form-control"
-                                id="street"
-                                placeholder=""
-                                required
-                              />
-                            </FormGroup>
-                          </Col>
                           <Col lg="4">
                             <FormGroup className=" mt-4 mb-0">
                               <Label htmlFor="apartmentNo">
@@ -151,6 +144,20 @@ class Cart extends Component {
                               />
                             </FormGroup>
                           </Col>
+                          <Col lg="5">
+                            <FormGroup className="mt-4 mb-0">
+                              <Label htmlFor="street">Lane / Street name</Label>
+                              <AvField
+                                type="text"
+                                name="street"
+                                className="form-control"
+                                id="street"
+                                placeholder=""
+                                required
+                              />
+                            </FormGroup>
+                          </Col>
+
                           <Col lg="3">
                             <FormGroup className="mt-4 mb-0">
                               <Label htmlFor="city">City</Label>
@@ -179,13 +186,28 @@ class Cart extends Component {
                           <Col lg="5">
                             <FormGroup className="mt-2 mb-0">
                               <Label htmlFor="addressMobileNo">
-                                Contact number
+                                Registered number
                               </Label>
-                              <Input
+                              <AvField
                                 type="text"
+                                name="addressMobileNo"
                                 className="form-control"
                                 id="addressMobileNo"
                                 placeholder=""
+                                value={localStorage.getItem("username")}
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col lg="5">
+                            <FormGroup className="mt-2 mb-0">
+                              <AvField
+                                type="text"
+                                name="merchantBranch"
+                                className="form-control"
+                                id="merchantBranch"
+                                placeholder=""
+                                value={cart_rest_id}
+                                hidden
                               />
                             </FormGroup>
                           </Col>
@@ -238,37 +260,7 @@ class Cart extends Component {
                     </Row>
                   </CardBody>
                </Card> */}
-
-                <Card>
-                  <CardBody>
-                    <CardTitle className="mb-3">Order Summary</CardTitle>
-
-                    <div className="table-responsive">
-                      <Table className="table mb-0">
-                        <tbody>
-                          <tr>
-                            <td>Cart Total :</td>
-                            <td>₹ {cart_total}</td>
-                          </tr>
-
-                          <tr>
-                            <td>Packaging and taxes: </td>
-                            <td>₹ {tax}</td>
-                          </tr>
-                          <tr>
-                            <td>Delivery Charge : </td>
-                            <td>₹ {deli_charge}</td>
-                          </tr>
-
-                          <tr>
-                            <th>Grand Total :</th>
-                            <th>₹ {grand_total}</th>
-                          </tr>
-                        </tbody>
-                      </Table>
-                    </div>
-                  </CardBody>
-                </Card>
+                <Summary />
               </Col>
             </Row>
           </Container>

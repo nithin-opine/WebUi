@@ -12,6 +12,7 @@ import NonAuthLayout from "./components/NonAuthLayout";
 
 // Import scss
 import "./assets/scss/theme.scss";
+import "react-notifications/lib/notifications.css";
 
 // Import Firebase Configuration file
 // import { initFirebaseBackend } from "./helpers/firebase_helper";
@@ -51,6 +52,7 @@ class App extends Component {
                 component={route.component}
                 key={idx}
                 isAuthProtected={false}
+                exact
               />
             ))}
 
@@ -61,6 +63,7 @@ class App extends Component {
                 component={route.component}
                 key={idx}
                 isAuthProtected={true}
+                exact
               />
             ))}
           </Switch>

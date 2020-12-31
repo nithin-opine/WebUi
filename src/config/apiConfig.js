@@ -6,7 +6,6 @@ axios.interceptors.request.use(
     let AuthToken = "";
     config.headers["Authorization"] = token;
     config.headers["Content-Type"] = "application/json";
-    console.log(config.headers);
     return config;
   },
   (error) => {

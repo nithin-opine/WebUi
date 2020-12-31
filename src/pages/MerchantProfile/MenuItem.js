@@ -122,7 +122,7 @@ class MenuItem extends Component {
               <div className="menuimgwrap">
                 <img
                   className="menuitemimg"
-                  src="https://bigoven-res.cloudinary.com/image/upload/d_recipe-no-image.jpg,t_recipe-256/double-cheese-burger-with-chips.jpg"
+                  src="https://www.reachaccountant.com/wp-content/uploads/2018/01/placeit.png"
                   onClick={this.tog_item_modal}
                 ></img>
               </div>

@@ -21,6 +21,7 @@ import MerchantHomeKitchen from "../pages/MerchantHomeKitchen";
 import TasksList from "../pages/Tasks/tasks-list";
 import TasksKanban from "../pages/Tasks/tasks-kanban";
 import TasksCreate from "../pages/Tasks/tasks-create";
+import Validate from "../pages/Authentication/Validate";
 
 //Projects
 import ProjectsGrid from "../pages/Projects/projects-grid";
@@ -272,13 +273,13 @@ const authProtectedRoutes = [
   { path: "/pages-timeline", component: PagesTimeline },
   { path: "/pages-faqs", component: PagesFaqs },
   { path: "/pages-pricing", component: PagesPricing },
-
+  { path: "/", component: () => <Redirect to="/login" /> },
   // this route should be at the end of all other routes
-  { path: "/", exact: true, component: () => <Redirect to="/dashboard" /> },
 ];
 
 const publicRoutes = [
   { path: "/dashboard", component: Dashboard },
+  { path: "/validate", component: Validate },
   { path: "/listingfood", component: ListingFood },
   { path: "/logout", component: Logout },
   { path: "/login", component: Login },
@@ -296,6 +297,7 @@ const publicRoutes = [
   { path: "/pages-register", component: Register1 },
   { path: "/pages-forgot-pwd", component: ForgetPwd1 },
   { path: "/auth-lock-screen", component: LockScreen },
+  { path: "/", component: () => <Redirect to="/dashboard" /> },
 ];
 
 export { authProtectedRoutes, publicRoutes };

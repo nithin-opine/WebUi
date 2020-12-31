@@ -16,7 +16,6 @@ import { BaseUrl } from "../../../config/BaseUrl";
 const fireBaseBackend = getFirebaseBackend();
 
 function* loginUser({ payload: { user, history } }) {
-  console.log("fdgdgfdfgdfgdf", process.env.REACT_APP_DEFAULTAUTH);
   try {
     if (process.env.REACT_APP_DEFAULTAUTH === "firebase") {
       const response = yield call(

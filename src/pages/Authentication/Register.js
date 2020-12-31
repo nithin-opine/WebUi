@@ -1,11 +1,16 @@
 import React, { Component } from "react";
-import { Row, Col, CardBody, Card, Alert,Container } from "reactstrap";
+import { Row, Col, CardBody, Card, Alert, Container } from "reactstrap";
+import { Redirect } from "react-router-dom";
 
 // availity-reactstrap-validation
 import { AvForm, AvField } from "availity-reactstrap-validation";
 
 // action
-import { registerUser,apiError,registerUserFailed } from "../../store/actions";
+import {
+  registerUser,
+  apiError,
+  registerUserFailed,
+} from "../../store/actions";
 
 // Redux
 import { connect } from "react-redux";
@@ -25,15 +30,16 @@ class Register extends Component {
   }
 
   // handleValidSubmit
-  handleValidSubmit(event, values) {
-    this.props.registerUser(values);
+  async handleValidSubmit(event, values) {
+    await this.props
+      .registerUser(values)
+      .then(window.location.replace("/validate"));
   }
 
-    componentDidMount()
-    {
-        this.props.apiError("");
-        this.props.registerUserFailed("");
-    }
+  componentDidMount() {
+    this.props.apiError("");
+    this.props.registerUserFailed("");
+  }
 
   render() {
     return (
@@ -52,8 +58,8 @@ class Register extends Component {
                     <Row>
                       <Col className="col-7">
                         <div className="text-primary p-4">
-                          <h5 className="text-primary">Free Register</h5>
-                          <p>Get your free Skote account now.</p>
+                          <h5 className="text-primary">Register</h5>
+                          <p>Create an account to get started.</p>
                         </div>
                       </Col>
                       <Col className="col-5 align-self-end">
@@ -82,40 +88,29 @@ class Register extends Component {
                         onValidSubmit={this.handleValidSubmit}
                       >
                         {this.props.user && this.props.user ? (
-                          <Alert color="success">
-                            Register User Successfully
-                          </Alert>
+                          <Alert color="success">Registered succesfully</Alert>
                         ) : null}
                         {this.props.registrationError &&
-                          this.props.registrationError ? (
-                            <Alert color="danger">
-                              {this.props.registrationError}
-                            </Alert>
-                          ) : null}
+                        this.props.registrationError ? (
+                          <Alert color="danger">
+                            {this.props.registrationError}
+                          </Alert>
+                        ) : null}
 
                         <div className="form-group">
                           <AvField
-                            name="email"
-                            label="Email"
+                            name="mobile"
+                            label="Mobile number"
                             className="form-control"
-                            placeholder="Enter email"
-                            type="email"
+                            placeholder="Enter mobile number"
+                            type="number"
                             required
                           />
                         </div>
 
                         <div className="form-group">
                           <AvField
-                            name="username"
-                            label="Username"
-                            type="text"
-                            required
-                            placeholder="Enter username"
-                          />
-                        </div>
-                        <div className="form-group">
-                          <AvField
-                            name="password"
+                            name="devieId"
                             label="Password"
                             type="password"
                             required
@@ -134,7 +129,7 @@ class Register extends Component {
 
                         <div className="mt-4 text-center">
                           <p className="mb-0">
-                            By registering you agree to the Skote{" "}
+                            By registering you agree to the Annasree{" "}
                             <Link to="#" className="text-primary">
                               Terms of Use
                             </Link>
@@ -155,10 +150,6 @@ class Register extends Component {
                       Login
                     </Link>{" "}
                   </p>
-                  <p>
-                    © {new Date().getFullYear()} Skote. Crafted with{" "}
-                    <i className="mdi mdi-heart text-danger"></i> by Themesbrand
-                  </p>
                 </div>
               </Col>
             </Row>
@@ -169,9 +160,13 @@ class Register extends Component {
   }
 }
 
-const mapStatetoProps = state => {
+const mapStatetoProps = (state) => {
   const { user, registrationError, loading } = state.Account;
   return { user, registrationError, loading };
 };
 
-export default connect(mapStatetoProps, { registerUser,apiError,registerUserFailed })(Register);
+export default connect(mapStatetoProps, {
+  registerUser,
+  apiError,
+  registerUserFailed,
+})(Register);

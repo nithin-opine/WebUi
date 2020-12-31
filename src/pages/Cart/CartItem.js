@@ -9,6 +9,9 @@ import {
   Button,
 } from "reactstrap";
 import axios from "axios";
+import { connect } from "react-redux";
+import { withRouter, Link } from "react-router-dom";
+import { getCart } from "../../store/actions";
 
 class CartItem extends Component {
   constructor(props) {
@@ -21,10 +24,11 @@ class CartItem extends Component {
     this.setState({ itemqty: this.props.data.cartQty });
   }
   updateCart(item, qty) {
+    const userid = localStorage.getItem("userid");
     if (this.state.itemqty >= 1) {
       console.log("updating", item, qty);
       axios.put(
-        "http://207.180.228.92:8080/annasree-0.0.1-SNAPSHOT/api/public/update_cartqty/" +
+        "https://annasree.com:8443/annasree-0.0.1-SNAPSHOT/api/public/update_cartqty/" +
           item +
           "/" +
           qty
@@ -34,7 +38,7 @@ class CartItem extends Component {
   removefromCart(id) {
     console.log("hello");
     axios.delete(
-      " http://207.180.228.92:8080/annasree-0.0.1-SNAPSHOT/api/public/delete_cart/" +
+      " https://annasree.com:8443/annasree-0.0.1-SNAPSHOT/api/public/delete_cart/" +
         id
     );
   }
@@ -97,4 +101,10 @@ class CartItem extends Component {
   }
 }
 
-export default CartItem;
+const mapStatetoProps = (state) => {
+  console.log(state);
+  const cart_mirror = state.Cart.cart.cart_data;
+  return { cart_mirror };
+};
+
+export default withRouter(connect(mapStatetoProps, { getCart })(CartItem));

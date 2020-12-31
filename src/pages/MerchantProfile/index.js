@@ -48,7 +48,10 @@ class MerchantProfile extends Component {
   render() {
     return (
       <React.Fragment>
-        <MerchantInfo props={this.props.vendordetails.Vendor} />
+        <MerchantInfo
+          props={this.props.vendordetails.Vendor}
+          bid={this.props.match.params.id}
+        />
         {console.log("jj", this.props.vendordetails.Vendor)}
         <Container fluid>
           <Row>

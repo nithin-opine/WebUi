@@ -1,24 +1,25 @@
 import React, { Component } from "react";
 import { Container, Row, Col } from "reactstrap";
 import { Link } from "react-router-dom";
+import RestImg from "./RestImg";
 
 class MerchantInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
+
   render() {
+    let img = "";
+    if (this.props.bid) {
+      img = <RestImg bid={this.props.bid} />;
+    }
     return (
       <div class="merchanttopbar">
         <Container fluid>
           <Row>
             <Col md="3">
-              <div className="restmainimg">
-                <img
-                  src="https://img.freepik.com/free-photo/side-view-doner-with-grilled-chicken-greens-lettuce-tomato-french-fries-table_141793-4881.jpg?size=626&ext=jpg"
-                  alt=""
-                />
-              </div>
+              <div className="restmainimg">{img}</div>
             </Col>
             <Col md="6" className="restmaininfo">
               <h3>{this.props.props.vendordetails.merchantBranchName}</h3>

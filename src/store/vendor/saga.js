@@ -10,11 +10,11 @@ import { vendorList, setVendorDetails, setItemDetails } from "./actions";
 
 function* vendorfetcher() {
   const response = yield fetch(
-    "http://207.180.228.92:8080/annasree-0.0.1-SNAPSHOT/api/public/home/get_popular_nearby_list/10.797545/76.758892"
+    "https://annasree.com:8443/annasree-0.0.1-SNAPSHOT/api/public/home/get_popular_nearby_list/10.5244/76.2117"
   )
     .then((res) => res.json())
     .then((data) => data);
-  console.log(response);
+
   yield put(vendorList(response));
 }
 
