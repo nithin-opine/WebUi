@@ -22,6 +22,43 @@ import { getCart } from "../../store/actions";
 import axios from "axios";
 import CartItem from "./CartItem";
 import Summary from "./Summary";
+// this.options = {
+//   'key': 'rzp_test_QDmubH5QzhntWX', //test
+//   // 'key': 'rzp_live_zmGjmxou23uOR6', //live
+//   'name': '',
+//   'description': 'Place Order',
+//   'handler': function (response) {
+//     blockUI.start();
+//     this.checkoutItemId = [];
+//     for (var i = 0; i < $rootScope.cartItems.length; i++) {
+//       if ($rootScope.cartItems[i].product_details.is_published != "UA" || $rootScope.cartItems[i].product_details.is_published != "OS")
+//       this.checkoutItemId.push($rootScope.cartItems[i].id)
+//     }
+//     this.data = {
+//       orders: this.checkoutItemId,
+//       status: 'PD',
+//       payment_id: response.razorpay_payment_id,
+//       from_wallet: $rootScope.walletDataa,
+//       payment_method : 'OP'
+//     }
+//     $rootScope.CartSrv.checkout(this.data, (resp) => {
+//       cartStorage.cart.items = [];
+//       $state.go('medigen.profile')
+//       blockUI.stop();
+//     })
+//     // $rootScope.updateWallet();
+//   },
+//   "prefill": {
+//     "name": ""
+//   },
+//   "notes": {
+//     "address": ""
+//   },
+//   "theme": {
+//     "color": "#F37254"
+//   }
+// };
+
 class Cart extends Component {
   constructor(props) {
     super(props);
@@ -54,6 +91,15 @@ class Cart extends Component {
   }
   handleValidSubmit(event, values) {
     const userid = localStorage.getItem("userid");
+    let scope= this
+    var options =
+ {
+  "key": "rzp_test_rA3CKJfzVEtcEM", // Enter the Key ID generated from the Dashboard
+  "amount": "100", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+  "currency": "INR",
+  "name": "Annasree",
+  "description": "Test Transaction",
+  "handler": function (response){
     console.log("dddd", values);
     axios.post(
       "https://annasree.com:8443/annasree-0.0.1-SNAPSHOT/api/public/checkout/",
@@ -80,10 +126,26 @@ class Cart extends Component {
         scheduledDeliveryTime: "2020-11-28T09:00:00",
       }
     );
-    this.tog_item_modal();
+    scope.tog_item_modal();
     setTimeout(function () {
       window.location.reload(false);
     }, 5000);
+  },
+  "prefill": {
+      "name": "Gaurav Kumar",
+      "email": "gaurav.kumar@example.com",
+      "contact": "9999999999"
+  },
+  "notes": {
+      "address": "Razorpay Corporate Office"
+  },
+  "theme": {
+      "color": "#3399cc"
+  }
+};
+    let rzp = new window.Razorpay(options);
+    rzp.open()
+    
   }
   render() {
     var cart = this.props.cart_mirror;
